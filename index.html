@@ -59,11 +59,8 @@ var Typer = {
   speed: 3,
 
   init: function () {
-    /* FIX 1: was $.get(Typer.file, cb) — file is HTML content, not a URL.
-       Assign directly instead. */
     Typer.text = Typer.file;
 
-    /* FIX 2: was bare `accessCountimer` (global leak). Use Typer property. */
     Typer.accessCountimer = setInterval(function () {
       Typer.updLstChr();
     }, 500);
@@ -73,7 +70,6 @@ var Typer = {
   deniedCount:  0,
   accessCountimer: null,
 
-  /* FIX 3: stub methods that were called but never defined */
   makeAccess: function () { console.log('access granted'); },
   makeDenied: function () { console.log('access denied');  },
   hidepop:    function () { console.log('pop hidden');     },
@@ -82,14 +78,6 @@ var Typer = {
     return document.getElementById('console').innerHTML;
   },
 
-  /* FIX 4: cursor is now a dedicated <span>, not a raw "|" appended to innerHTML,
-     which was breaking HTML tags that ended with "|" as last char. */
-  updLstChr: function () {
-    /* Nothing needed — CSS animation on #cursor handles blinking */
-  },
-
-  /* FIX 5: advance index in an HTML-tag-aware way so we never cut mid-tag
-     (e.g. setting innerHTML to "<sp" would silently drop content). */
   advanceIndex: function () {
     var raw = Typer.text;
     var pos = Typer.index;
@@ -97,9 +85,8 @@ var Typer = {
 
     while (steps > 0 && pos < raw.length) {
       if (raw[pos] === '<') {
-        /* Consume the entire tag atomically — counts as one step */
         while (pos < raw.length && raw[pos] !== '>') { pos++; }
-        pos++; /* include '>' */
+        pos++; 
       } else {
         pos++;
       }
@@ -117,7 +104,6 @@ var Typer = {
     else if (kc === 8)  { if (Typer.index > 0) Typer.index = Math.max(0, Typer.index - Typer.speed); }
     else                { Typer.advanceIndex(); }
 
-    /* Render typed slice; keep cursor span at end */
     var slice = Typer.text.substring(0, Typer.index)
                            .replace(/\n/g, '<br/>');
     document.getElementById('console').innerHTML =
@@ -133,7 +119,6 @@ var timer = setInterval(function () {
 }, 30);
 
 document.onkeydown = function (e) {
-  /* Jump to end on Escape */
   if (e.keyCode === 27) Typer.index = Typer.text.length;
 };
 </script>
