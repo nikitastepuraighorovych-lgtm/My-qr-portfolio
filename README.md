@@ -1,7 +1,7 @@
 # About
 
 My small creative twist on portfolio in a qr code 
-Based on CodeNerve project: https://github.com/CodeNerve/CodeNerve.github.io/tree/master
+based on CodeNerve project: https://github.com/CodeNerve/CodeNerve.github.io/tree/master
 Minifier for html used: https://kangax.github.io/html-minifier/
 Qr generator used: https://goqr.me
 
